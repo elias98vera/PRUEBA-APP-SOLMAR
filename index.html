@@ -11,8 +11,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
@@ -98,8 +98,9 @@
         </div>
     </div>
     <h2 style="color: #003366; margin-bottom: 5px;">Hola, <span id="display-name" style="color: #e67e22;"></span>
+    </h2>
 
-        <div id="admin-tools"
+    <div id="admin-tools"
      style="display:none; background:#f8fafc; padding:12px; border-radius:12px; margin:10px 0 15px 0; border:1px solid #dbe5ef;">
 
     <div style="font-weight:800; color:#003366; margin-bottom:8px;">
@@ -117,7 +118,6 @@
     </button>
 </div>
 
-    </h2>
     <div style="background: #e8f4fd; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 2px solid #bbe1fa;">
         <h3 style="margin: 0; color: #0056b3;">🏆 Puntaje Acumulado: <span id="total-score" style="font-size: 24px;">0</span> pts</h3>
         <p style="margin: 5px 0 0 0; color: #555; font-size: 14px;">🎯 Partidas terminadas: <span id="total-completadas" style="font-weight: bold; color: #27ae60;">0</span></p>
@@ -130,22 +130,6 @@
     🎮 Trivia en Vivo</button>
 
     <button onclick="cerrarSesion()" style="background: #e74c3c; margin-top: 20px;">🚪 Cerrar Sesión</button>
-</div>
-
-<div id="admin-buttons" style="display:none; margin-top:15px; padding-top:15px; border-top:1px solid #ddd;">
-
-    <p style="margin:0 0 8px 0; font-weight:800; color:#003366;">
-        ⚙️ Administración
-    </p>
-
-    <button onclick="abrirAdministracion('admin.html')" style="background:#8e44ad;">
-        ⚙️ Administración de la Aplicación
-    </button>
-
-    <button onclick="abrirAdministracion('trivia-en-vivo/admin.html')" style="background:#e67e22;">
-        🎮 Administración de Trivia en Vivo
-    </button>
-
 </div>
 
 <div class="container" id="game-screen">
@@ -400,8 +384,8 @@
 
     let playerId = null;
     function guardarSesionPersonal(id) {
-    sessionStorage.setItem('solmar_playerId', id);
-}
+        sessionStorage.setItem('solmar_personal_perfil', JSON.stringify(perfilJugador));
+    }
     let temaJugando = null;
     let preguntasPendientes = [];
     
@@ -560,7 +544,6 @@ function conectarPerfilJugador(id) {
         document.getElementById('display-name').innerText = perfilJugador.nombre || 'Jugador';
 
         renderizarPantallaTemas();
-        actualizarBotonesAdministrador();
     });
 }
 
@@ -964,7 +947,8 @@ function iniciarSesion() {
     }
 
     function cerrarSesion() {
-        sessionStorage.removeItem('solmar_playerId');
+        sessionStorage.removeItem('solmar_personal_playerId');
+        sessionStorage.removeItem('solmar_personal_perfil');
 
         if (listenerJugadorRef) {
             listenerJugadorRef.off();
